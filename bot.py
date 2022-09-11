@@ -64,13 +64,7 @@ async def author_search(event):
         await bot.send_message(sender.id, "Please send message correctly")
     
     else:
-        ttl = [x for x in coll.find({'$text': {'$search': txt[1]}})]
-        auth = [x for x in coll.find({'$text': {'$search': txt[3]}})]
-        rtn = []
-
-        for i in range(abs(len(ttl)-len(auth))):
-            if ttl[i] in auth:
-                rtn.append(ttl[i])
+        rtn = [x for x in coll.find({'$text':{'$search': f'"{txt[1]}" "{txt[3]}"'}})]
         msg = ""
         for inf in rtn:
             msg += f'**Bookid: {inf["BookID"]}**\nTitle: {inf["Title"]}\nPublisher: {inf["Publisher"]}\nAuthor: {inf["ResTitle"]}\nPlace: {inf["Place"]}\nYear: {inf["YEAR"]}\n---------------------------------------------\n'
